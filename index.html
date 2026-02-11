@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Andrea Griffiths | ag11.dev</title>
+  <title>Andrea Griffiths | ag11.dev - Comet Trail</title>
   <meta name="description" content="Connect with Andrea Griffiths - Developer Advocate, Speaker, Newsletter Author">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <script src="https://cdn.tailwindcss.com"></script>
@@ -13,17 +13,38 @@
     .fade-in { animation: fadeIn 0.3s ease-in forwards; }
     .fade-out { animation: fadeOut 0.3s ease-out forwards; }
     
-    /* Star trail */
-    .star {
+    /* Comet trail */
+    svg.trail {
       position: fixed;
-      pointer-events: none;
+      top: 0;
+      left: 0;
       z-index: 1000;
+      pointer-events: none;
     }
   </style>
 </head>
 <body class="min-h-screen bg-zinc-950 text-zinc-100 flex flex-col items-center justify-center p-6 overflow-hidden">
-  <!-- Star container -->
-  <div id="stars"></div>
+  <!-- Comet trail SVG -->
+  <svg class="trail">
+    <defs>
+      <linearGradient id="comet-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#58a6ff" stop-opacity="0"/>
+        <stop offset="50%" stop-color="#a5d6ff" stop-opacity="0.5"/>
+        <stop offset="100%" stop-color="#ffffff" stop-opacity="1"/>
+      </linearGradient>
+      <filter id="glow">
+        <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+        <feMerge>
+          <feMergeNode in="coloredBlur"/>
+          <feMergeNode in="SourceGraphic"/>
+        </feMerge>
+      </filter>
+    </defs>
+    <path class="comet-path" fill="none" stroke="url(#comet-gradient)" stroke-width="4" stroke-linecap="round" filter="url(#glow)"></path>
+    <g class="comet-head" filter="url(#glow)">
+      <path d="M0 -8L2.5 -2.5L8 0L2.5 2.5L0 8L-2.5 2.5L-8 0L-2.5 -2.5Z" fill="#ffffff"/>
+    </g>
+  </svg>
 
   <div class="max-w-md w-full text-center relative z-10">
     <div class="mb-8">
@@ -115,62 +136,58 @@
       }, 300);
     }, 3000);
 
-    // Star trail effect - pastel palette matching andreagriffiths.dev
-    const starsContainer = document.getElementById('stars');
-    const colors = [
-      '#58a6ff', // soft blue (main accent)
-      '#7ee787', // soft green
-      '#a5d6ff', // light sky blue
-      '#d2a8ff', // soft lavender
-      '#ffa198', // soft coral
-      '#ffffff', // white sparkle
-    ];
-    let lastX = 0, lastY = 0;
+    // Comet trail effect
+    const svg = document.querySelector('svg.trail');
+    const path = svg.querySelector('.comet-path');
+    const head = svg.querySelector('.comet-head');
+    let points = [];
+    const segments = 50;
+    const mouse = { x: 0, y: 0 };
+    let rotation = 0;
 
-    function createStar(x, y) {
-      const star = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-      const size = Math.random() * 14 + 8;
-      const color = colors[Math.floor(Math.random() * colors.length)];
-      const rotation = Math.random() * 360;
-      
-      star.classList.add('star');
-      star.setAttribute('width', size);
-      star.setAttribute('height', size);
-      star.setAttribute('viewBox', '0 0 24 24');
-      star.style.left = (x - size / 2) + 'px';
-      star.style.top = (y - size / 2) + 'px';
-      star.style.transform = `rotate(${rotation}deg)`;
-      star.style.filter = `drop-shadow(0 0 ${size / 2}px ${color})`;
-      star.innerHTML = `<path d="M12 0L14.59 8.41L23 12L14.59 15.59L12 24L9.41 15.59L1 12L9.41 8.41L12 0Z" fill="${color}"/>`;
-      
-      starsContainer.appendChild(star);
-      
-      // Animate fade out and drift down
-      let opacity = 1;
-      let posY = y;
-      const fade = setInterval(() => {
-        opacity -= 0.025;
-        posY += 0.8;
-        star.style.opacity = opacity;
-        star.style.top = (posY - size / 2) + 'px';
-        if (opacity <= 0) {
-          clearInterval(fade);
-          star.remove();
+    const resize = () => {
+      const ww = window.innerWidth;
+      const wh = window.innerHeight;
+      svg.style.width = ww + 'px';
+      svg.style.height = wh + 'px';
+      svg.setAttribute('viewBox', `0 0 ${ww} ${wh}`);
+    };
+
+    const move = (event) => {
+      mouse.x = event.clientX;
+      mouse.y = event.clientY;
+      if (points.length === 0) {
+        for (let i = 0; i < segments; i++) {
+          points.push({ x: mouse.x, y: mouse.y });
         }
-      }, 20);
-    }
-
-    document.addEventListener('mousemove', (e) => {
-      const dx = e.clientX - lastX;
-      const dy = e.clientY - lastY;
-      const distance = Math.sqrt(dx * dx + dy * dy);
-      
-      if (distance > 10) {
-        createStar(e.clientX, e.clientY);
-        lastX = e.clientX;
-        lastY = e.clientY;
       }
-    });
+    };
+
+    const anim = () => {
+      let px = mouse.x;
+      let py = mouse.y;
+      points.forEach((p, index) => {
+        p.x = px;
+        p.y = py;
+        const n = points[index + 1];
+        if (n) {
+          px = px - (p.x - n.x) * 0.7;
+          py = py - (p.y - n.y) * 0.7;
+        }
+      });
+      path.setAttribute('d', `M ${points.map((p) => `${p.x} ${p.y}`).join(' L ')}`);
+      
+      // Rotate the star slowly
+      rotation += 2;
+      head.setAttribute('transform', `translate(${mouse.x}, ${mouse.y}) rotate(${rotation})`);
+      
+      requestAnimationFrame(anim);
+    };
+
+    document.addEventListener('mousemove', move);
+    window.addEventListener('resize', resize);
+    resize();
+    anim();
   </script>
 </body>
 </html>
