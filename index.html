@@ -27,7 +27,7 @@
 
   <div class="max-w-md w-full text-center relative z-10">
     <div class="mb-8">
-      <div class="inline-flex items-center gap-2 text-emerald-400 mb-4">
+      <div class="inline-flex items-center gap-2 text-[#58a6ff] mb-4">
         <span>✨</span>
         <span class="text-sm font-medium tracking-wide uppercase">You found me</span>
         <span>✨</span>
@@ -35,7 +35,7 @@
       <h1 class="text-4xl font-bold mb-4">Hey, I'm Andrea</h1>
       <p class="text-zinc-400 text-lg leading-relaxed">
         You landed here because
-        <span id="reason" class="text-emerald-400 font-medium">we met at a conference</span>
+        <span id="reason" class="text-[#58a6ff] font-medium">we met at a conference</span>
       </p>
     </div>
     <div class="space-y-3">
@@ -45,7 +45,7 @@
         <span class="font-medium">Website</span>
       </a>
       <a href="https://mainbranch.beehiiv.com" target="_blank" rel="noopener noreferrer"
-         class="flex items-center gap-4 p-4 rounded-xl border border-zinc-800 bg-zinc-900/50 transition-all duration-200 hover:bg-emerald-500/20 hover:border-emerald-400">
+         class="flex items-center gap-4 p-4 rounded-xl border border-zinc-800 bg-zinc-900/50 transition-all duration-200 hover:bg-[#58a6ff]/20 hover:border-[#58a6ff]">
         <span class="text-xl">📰</span>
         <span class="font-medium">Newsletter</span>
       </a>
@@ -115,9 +115,16 @@
       }, 300);
     }, 3000);
 
-    // Star trail effect
+    // Star trail effect - pastel palette matching andreagriffiths.dev
     const starsContainer = document.getElementById('stars');
-    const colors = ['#34d399', '#fbbf24', '#f472b6', '#60a5fa', '#a78bfa', '#ffffff'];
+    const colors = [
+      '#58a6ff', // soft blue (main accent)
+      '#7ee787', // soft green
+      '#a5d6ff', // light sky blue
+      '#d2a8ff', // soft lavender
+      '#ffa198', // soft coral
+      '#ffffff', // white sparkle
+    ];
     let lastX = 0, lastY = 0;
 
     function createStar(x, y) {
@@ -133,7 +140,7 @@
       star.style.left = (x - size / 2) + 'px';
       star.style.top = (y - size / 2) + 'px';
       star.style.transform = `rotate(${rotation}deg)`;
-      star.style.filter = `drop-shadow(0 0 ${size / 3}px ${color})`;
+      star.style.filter = `drop-shadow(0 0 ${size / 2}px ${color})`;
       star.innerHTML = `<path d="M12 0L14.59 8.41L23 12L14.59 15.59L12 24L9.41 15.59L1 12L9.41 8.41L12 0Z" fill="${color}"/>`;
       
       starsContainer.appendChild(star);
