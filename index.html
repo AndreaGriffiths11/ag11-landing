@@ -3,15 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Andrea Griffiths | ag11.dev - Comet Trail</title>
+  <title>Andrea Griffiths | ag11.dev</title>
   <meta name="description" content="Connect with Andrea Griffiths - Developer Advocate, Speaker, Newsletter Author">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" as="style">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
     .fade-in { animation: fadeIn 0.3s ease-in forwards; }
     .fade-out { animation: fadeOut 0.3s ease-out forwards; }
+    
+    .font-serif-display {
+      font-family: 'Instrument Serif', serif;
+    }
     
     /* Comet trail */
     svg.trail {
@@ -53,10 +59,12 @@
         <span class="text-sm font-medium tracking-wide uppercase">You found me</span>
         <span>✨</span>
       </div>
-      <h1 class="text-4xl font-bold mb-4">Hey, I'm Andrea</h1>
+      <h1 class="text-5xl mb-4 font-serif-display">
+        <span>Hey, I'm</span> <span class="italic">Andrea</span>
+      </h1>
       <p class="text-zinc-400 text-lg leading-relaxed">
         You landed here because
-        <span id="reason" class="text-[#58a6ff] font-medium">we met at a conference</span>
+        <span id="reason" class="text-[#58a6ff] font-serif-display italic">we met at a conference</span>
       </p>
     </div>
     <div class="space-y-3">
@@ -80,7 +88,7 @@
         <span class="text-xl">📺</span>
         <span class="font-medium">YouTube</span>
       </a>
-      <a href="https://linkedin.com/in/acolombiadev" target="_blank" rel="noopener noreferrer"
+      <a href="https://linkedin.com/in/andreagriffiths11" target="_blank" rel="noopener noreferrer"
          class="flex items-center gap-4 p-4 rounded-xl border border-zinc-800 bg-zinc-900/50 transition-all duration-200 hover:bg-blue-500/20 hover:border-blue-400">
         <span class="text-xl">💼</span>
         <span class="font-medium">LinkedIn</span>
@@ -96,7 +104,7 @@
         <span class="font-medium">Email</span>
       </a>
     </div>
-    <p class="mt-10 text-zinc-600 text-sm">ag11.dev</p>
+    <p class="mt-10 text-zinc-600 text-sm font-serif-display italic">ag11.dev</p>
   </div>
 
   <script>
