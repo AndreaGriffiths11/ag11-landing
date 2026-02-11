@@ -11,10 +11,32 @@
     @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
     .fade-in { animation: fadeIn 0.3s ease-in forwards; }
     .fade-out { animation: fadeOut 0.3s ease-out forwards; }
+    
+    /* Cursor trail */
+    svg.trail {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+      pointer-events: none;
+    }
+    svg.trail path {
+      fill: none;
+      stroke: #34d399;
+      stroke-width: 6px;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      opacity: 0.7;
+    }
   </style>
 </head>
 <body class="min-h-screen bg-zinc-950 text-zinc-100 flex flex-col items-center justify-center p-6">
-  <div class="max-w-md w-full text-center">
+  <!-- Cursor trail SVG -->
+  <svg class="trail" viewBox="0 0 1920 1080">
+    <path d="M "></path>
+  </svg>
+
+  <div class="max-w-md w-full text-center relative z-10">
     <div class="mb-8">
       <div class="inline-flex items-center gap-2 text-emerald-400 mb-4">
         <span>✨</span>
@@ -66,7 +88,9 @@
     </div>
     <p class="mt-10 text-zinc-600 text-sm">ag11.dev</p>
   </div>
+
   <script>
+    // Rotating reasons
     const reasons = [
       "we met at a conference",
       "you watched my talk",
@@ -101,6 +125,52 @@
         setTimeout(() => el.classList.remove('fade-in'), 300);
       }, 300);
     }, 3000);
+
+    // Cursor trail effect
+    const svg = document.querySelector('svg.trail');
+    const path = svg.querySelector('path');
+    let points = [];
+    const segments = 80;
+    const mouse = { x: 0, y: 0 };
+
+    const resize = () => {
+      const ww = window.innerWidth;
+      const wh = window.innerHeight;
+      svg.style.width = ww + 'px';
+      svg.style.height = wh + 'px';
+      svg.setAttribute('viewBox', `0 0 ${ww} ${wh}`);
+    };
+
+    const move = (event) => {
+      mouse.x = event.clientX;
+      mouse.y = event.clientY;
+      if (points.length === 0) {
+        for (let i = 0; i < segments; i++) {
+          points.push({ x: mouse.x, y: mouse.y });
+        }
+      }
+    };
+
+    const anim = () => {
+      let px = mouse.x;
+      let py = mouse.y;
+      points.forEach((p, index) => {
+        p.x = px;
+        p.y = py;
+        const n = points[index + 1];
+        if (n) {
+          px = px - (p.x - n.x) * 0.6;
+          py = py - (p.y - n.y) * 0.6;
+        }
+      });
+      path.setAttribute('d', `M ${points.map((p) => `${p.x} ${p.y}`).join(' L ')}`);
+      requestAnimationFrame(anim);
+    };
+
+    document.addEventListener('mousemove', move);
+    window.addEventListener('resize', resize);
+    resize();
+    anim();
   </script>
 </body>
 </html>
