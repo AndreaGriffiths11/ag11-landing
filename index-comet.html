@@ -41,7 +41,9 @@
       </filter>
     </defs>
     <path class="comet-path" fill="none" stroke="url(#comet-gradient)" stroke-width="4" stroke-linecap="round" filter="url(#glow)"></path>
-    <circle class="comet-head" r="6" fill="#ffffff" filter="url(#glow)"/>
+    <g class="comet-head" filter="url(#glow)">
+      <path d="M0 -8L2.5 -2.5L8 0L2.5 2.5L0 8L-2.5 2.5L-8 0L-2.5 -2.5Z" fill="#ffffff"/>
+    </g>
   </svg>
 
   <div class="max-w-md w-full text-center relative z-10">
@@ -141,6 +143,7 @@
     let points = [];
     const segments = 50;
     const mouse = { x: 0, y: 0 };
+    let rotation = 0;
 
     const resize = () => {
       const ww = window.innerWidth;
@@ -173,8 +176,11 @@
         }
       });
       path.setAttribute('d', `M ${points.map((p) => `${p.x} ${p.y}`).join(' L ')}`);
-      head.setAttribute('cx', mouse.x);
-      head.setAttribute('cy', mouse.y);
+      
+      // Rotate the star slowly
+      rotation += 2;
+      head.setAttribute('transform', `translate(${mouse.x}, ${mouse.y}) rotate(${rotation})`);
+      
       requestAnimationFrame(anim);
     };
 
