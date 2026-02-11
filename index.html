@@ -13,29 +13,17 @@
     .fade-in { animation: fadeIn 0.3s ease-in forwards; }
     .fade-out { animation: fadeOut 0.3s ease-out forwards; }
     
-    /* Cursor trail */
-    svg.trail {
+    /* Star trail */
+    .star {
       position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 1000;
       pointer-events: none;
-    }
-    svg.trail path {
-      fill: none;
-      stroke: #34d399;
-      stroke-width: 6px;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      opacity: 0.7;
+      z-index: 1000;
     }
   </style>
 </head>
-<body class="min-h-screen bg-zinc-950 text-zinc-100 flex flex-col items-center justify-center p-6">
-  <!-- Cursor trail SVG -->
-  <svg class="trail" viewBox="0 0 1920 1080">
-    <path d="M "></path>
-  </svg>
+<body class="min-h-screen bg-zinc-950 text-zinc-100 flex flex-col items-center justify-center p-6 overflow-hidden">
+  <!-- Star container -->
+  <div id="stars"></div>
 
   <div class="max-w-md w-full text-center relative z-10">
     <div class="mb-8">
@@ -127,51 +115,55 @@
       }, 300);
     }, 3000);
 
-    // Cursor trail effect
-    const svg = document.querySelector('svg.trail');
-    const path = svg.querySelector('path');
-    let points = [];
-    const segments = 80;
-    const mouse = { x: 0, y: 0 };
+    // Star trail effect
+    const starsContainer = document.getElementById('stars');
+    const colors = ['#34d399', '#fbbf24', '#f472b6', '#60a5fa', '#a78bfa', '#ffffff'];
+    let lastX = 0, lastY = 0;
 
-    const resize = () => {
-      const ww = window.innerWidth;
-      const wh = window.innerHeight;
-      svg.style.width = ww + 'px';
-      svg.style.height = wh + 'px';
-      svg.setAttribute('viewBox', `0 0 ${ww} ${wh}`);
-    };
-
-    const move = (event) => {
-      mouse.x = event.clientX;
-      mouse.y = event.clientY;
-      if (points.length === 0) {
-        for (let i = 0; i < segments; i++) {
-          points.push({ x: mouse.x, y: mouse.y });
+    function createStar(x, y) {
+      const star = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      const size = Math.random() * 14 + 8;
+      const color = colors[Math.floor(Math.random() * colors.length)];
+      const rotation = Math.random() * 360;
+      
+      star.classList.add('star');
+      star.setAttribute('width', size);
+      star.setAttribute('height', size);
+      star.setAttribute('viewBox', '0 0 24 24');
+      star.style.left = (x - size / 2) + 'px';
+      star.style.top = (y - size / 2) + 'px';
+      star.style.transform = `rotate(${rotation}deg)`;
+      star.style.filter = `drop-shadow(0 0 ${size / 3}px ${color})`;
+      star.innerHTML = `<path d="M12 0L14.59 8.41L23 12L14.59 15.59L12 24L9.41 15.59L1 12L9.41 8.41L12 0Z" fill="${color}"/>`;
+      
+      starsContainer.appendChild(star);
+      
+      // Animate fade out and drift down
+      let opacity = 1;
+      let posY = y;
+      const fade = setInterval(() => {
+        opacity -= 0.025;
+        posY += 0.8;
+        star.style.opacity = opacity;
+        star.style.top = (posY - size / 2) + 'px';
+        if (opacity <= 0) {
+          clearInterval(fade);
+          star.remove();
         }
+      }, 20);
+    }
+
+    document.addEventListener('mousemove', (e) => {
+      const dx = e.clientX - lastX;
+      const dy = e.clientY - lastY;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+      
+      if (distance > 10) {
+        createStar(e.clientX, e.clientY);
+        lastX = e.clientX;
+        lastY = e.clientY;
       }
-    };
-
-    const anim = () => {
-      let px = mouse.x;
-      let py = mouse.y;
-      points.forEach((p, index) => {
-        p.x = px;
-        p.y = py;
-        const n = points[index + 1];
-        if (n) {
-          px = px - (p.x - n.x) * 0.6;
-          py = py - (p.y - n.y) * 0.6;
-        }
-      });
-      path.setAttribute('d', `M ${points.map((p) => `${p.x} ${p.y}`).join(' L ')}`);
-      requestAnimationFrame(anim);
-    };
-
-    document.addEventListener('mousemove', move);
-    window.addEventListener('resize', resize);
-    resize();
-    anim();
+    });
   </script>
 </body>
 </html>
