@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Andrea Griffiths | ag11.dev</title>
   <meta name="description" content="Connect with Andrea Griffiths - Developer Advocate, Speaker, Newsletter Author">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
@@ -10,10 +10,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
-    .fade-in { animation: fadeIn 0.3s ease-in forwards; }
-    .fade-out { animation: fadeOut 0.3s ease-out forwards; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeOut { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(-4px); } }
+    .fade-in { animation: fadeIn 0.4s ease-out forwards; }
+    .fade-out { animation: fadeOut 0.4s ease-in forwards; }
     
     .font-serif-display {
       font-family: 'Instrument Serif', serif;
@@ -27,9 +27,26 @@
       z-index: 1000;
       pointer-events: none;
     }
+    
+    /* Mobile tap highlight */
+    .link-card {
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+    
+    .link-card:active {
+      transform: scale(0.97);
+    }
+    
+    /* Safe area for notched phones */
+    body {
+      padding-left: env(safe-area-inset-left);
+      padding-right: env(safe-area-inset-right);
+      padding-bottom: env(safe-area-inset-bottom);
+    }
   </style>
 </head>
-<body class="min-h-screen bg-zinc-950 text-zinc-100 flex flex-col items-center justify-center p-6 overflow-hidden">
+<body class="min-h-screen bg-zinc-950 text-zinc-100 flex flex-col items-center justify-center p-6 overflow-x-hidden">
   <!-- Comet trail SVG -->
   <svg class="trail">
     <defs>
@@ -54,51 +71,51 @@
 
   <div class="max-w-lg w-full text-center relative z-10">
     <!-- Header section -->
-    <div class="mb-12">
-      <div class="inline-flex items-center gap-2 text-[#58a6ff] mb-6">
+    <div class="mb-8 sm:mb-12">
+      <div class="inline-flex items-center gap-2 text-[#58a6ff] mb-4 sm:mb-6">
         <span>✨</span>
         <span class="text-xs font-medium tracking-widest uppercase">You found me</span>
         <span>✨</span>
       </div>
-      <h1 class="text-6xl mb-8 font-serif-display leading-tight">
+      <h1 class="text-5xl sm:text-6xl mb-6 sm:mb-8 font-serif-display leading-tight">
         <span>Hey, I'm</span> <span class="italic">Andrea</span>
       </h1>
-      <p class="text-zinc-500 text-sm mb-3">You landed here because</p>
-      <p id="reason" class="text-[#58a6ff] font-serif-display italic text-3xl leading-snug">we met at a conference</p>
+      <p class="text-zinc-500 text-sm mb-2 sm:mb-3">You landed here because</p>
+      <p id="reason" class="text-[#58a6ff] font-serif-display italic text-2xl sm:text-3xl leading-snug min-h-[2.5em] flex items-center justify-center">we met at a conference</p>
     </div>
 
     <!-- Divider -->
-    <div class="w-16 h-px bg-zinc-800 mx-auto mb-10"></div>
+    <div class="w-16 h-px bg-zinc-800 mx-auto mb-8 sm:mb-10"></div>
 
     <!-- Links section -->
-    <div class="grid grid-cols-2 gap-2 mb-10">
+    <div class="grid grid-cols-2 gap-3 sm:gap-2 mb-8 sm:mb-10">
       <a href="https://andreagriffiths.dev" target="_blank" rel="noopener noreferrer"
-         class="flex items-center justify-center gap-2 py-3 px-4 rounded-lg border border-zinc-800/60 bg-zinc-900/30 transition-all duration-200 hover:bg-purple-500/20 hover:border-purple-400 text-sm">
+         class="link-card flex items-center justify-center gap-2 py-4 sm:py-3 px-4 rounded-xl sm:rounded-lg border border-zinc-800/60 bg-zinc-900/30 transition-all duration-200 hover:bg-purple-500/20 hover:border-purple-400 active:bg-purple-500/30 text-base sm:text-sm">
         <span>🌐</span>
         <span>Website</span>
       </a>
       <a href="https://mainbranch.beehiiv.com" target="_blank" rel="noopener noreferrer"
-         class="flex items-center justify-center gap-2 py-3 px-4 rounded-lg border border-zinc-800/60 bg-zinc-900/30 transition-all duration-200 hover:bg-[#58a6ff]/20 hover:border-[#58a6ff] text-sm">
+         class="link-card flex items-center justify-center gap-2 py-4 sm:py-3 px-4 rounded-xl sm:rounded-lg border border-zinc-800/60 bg-zinc-900/30 transition-all duration-200 hover:bg-[#58a6ff]/20 hover:border-[#58a6ff] active:bg-[#58a6ff]/30 text-base sm:text-sm">
         <span>📰</span>
         <span>Newsletter</span>
       </a>
       <a href="https://youtube.com/@acolombiadev" target="_blank" rel="noopener noreferrer"
-         class="flex items-center justify-center gap-2 py-3 px-4 rounded-lg border border-zinc-800/60 bg-zinc-900/30 transition-all duration-200 hover:bg-red-500/20 hover:border-red-400 text-sm">
+         class="link-card flex items-center justify-center gap-2 py-4 sm:py-3 px-4 rounded-xl sm:rounded-lg border border-zinc-800/60 bg-zinc-900/30 transition-all duration-200 hover:bg-red-500/20 hover:border-red-400 active:bg-red-500/30 text-base sm:text-sm">
         <span>📺</span>
         <span>YouTube</span>
       </a>
       <a href="https://linkedin.com/in/andreagriffiths11" target="_blank" rel="noopener noreferrer"
-         class="flex items-center justify-center gap-2 py-3 px-4 rounded-lg border border-zinc-800/60 bg-zinc-900/30 transition-all duration-200 hover:bg-blue-500/20 hover:border-blue-400 text-sm">
+         class="link-card flex items-center justify-center gap-2 py-4 sm:py-3 px-4 rounded-xl sm:rounded-lg border border-zinc-800/60 bg-zinc-900/30 transition-all duration-200 hover:bg-blue-500/20 hover:border-blue-400 active:bg-blue-500/30 text-base sm:text-sm">
         <span>💼</span>
         <span>LinkedIn</span>
       </a>
       <a href="https://twitter.com/acolombiadev" target="_blank" rel="noopener noreferrer"
-         class="flex items-center justify-center gap-2 py-3 px-4 rounded-lg border border-zinc-800/60 bg-zinc-900/30 transition-all duration-200 hover:bg-sky-500/20 hover:border-sky-400 text-sm">
+         class="link-card flex items-center justify-center gap-2 py-4 sm:py-3 px-4 rounded-xl sm:rounded-lg border border-zinc-800/60 bg-zinc-900/30 transition-all duration-200 hover:bg-sky-500/20 hover:border-sky-400 active:bg-sky-500/30 text-base sm:text-sm">
         <span>🐦</span>
         <span>Twitter / X</span>
       </a>
       <a href="mailto:andrea@mainbranch.dev"
-         class="flex items-center justify-center gap-2 py-3 px-4 rounded-lg border border-zinc-800/60 bg-zinc-900/30 transition-all duration-200 hover:bg-pink-500/20 hover:border-pink-400 text-sm">
+         class="link-card flex items-center justify-center gap-2 py-4 sm:py-3 px-4 rounded-xl sm:rounded-lg border border-zinc-800/60 bg-zinc-900/30 transition-all duration-200 hover:bg-pink-500/20 hover:border-pink-400 active:bg-pink-500/30 text-base sm:text-sm">
         <span>✉️</span>
         <span>Email</span>
       </a>
@@ -107,8 +124,8 @@
     <div class="flex items-center justify-center gap-3">
       <p class="text-zinc-700 text-sm font-serif-display italic">ag11.dev</p>
       <span class="text-zinc-800">·</span>
-      <a href="https://github.com/andreagriffiths11" target="_blank" rel="noopener noreferrer" class="text-zinc-700 hover:text-white transition-colors" aria-label="GitHub">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+      <a href="https://github.com/andreagriffiths11" target="_blank" rel="noopener noreferrer" class="text-zinc-700 hover:text-white active:text-white transition-colors p-2 -m-2" aria-label="GitHub">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
           <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
         </svg>
       </a>
@@ -116,7 +133,7 @@
   </div>
 
   <script>
-    // Rotating reasons
+    // Rotating reasons - slower on mobile for easier reading
     const reasons = [
       "we met at a conference",
       "you watched my talk",
@@ -141,25 +158,31 @@
       "coffee chat energy found you",
       "you're building something cool too"
     ];
+    
     const el = document.getElementById('reason');
+    const isMobile = window.matchMedia('(max-width: 640px)').matches;
+    const interval = isMobile ? 4000 : 3000;
+    
     setInterval(() => {
       el.classList.add('fade-out');
       setTimeout(() => {
         el.textContent = reasons[Math.floor(Math.random() * reasons.length)];
         el.classList.remove('fade-out');
         el.classList.add('fade-in');
-        setTimeout(() => el.classList.remove('fade-in'), 300);
-      }, 300);
-    }, 3000);
+        setTimeout(() => el.classList.remove('fade-in'), 400);
+      }, 400);
+    }, interval);
 
-    // Comet trail effect
+    // Comet trail effect - works with BOTH mouse AND touch
     const svg = document.querySelector('svg.trail');
     const path = svg.querySelector('.comet-path');
     const head = svg.querySelector('.comet-head');
     let points = [];
     const segments = 50;
-    const mouse = { x: 0, y: 0 };
+    const pointer = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
     let rotation = 0;
+    let isActive = false;
+    let fadeOutTimer = null;
 
     const resize = () => {
       const ww = window.innerWidth;
@@ -169,39 +192,87 @@
       svg.setAttribute('viewBox', `0 0 ${ww} ${wh}`);
     };
 
-    const move = (event) => {
-      mouse.x = event.clientX;
-      mouse.y = event.clientY;
-      if (points.length === 0) {
-        for (let i = 0; i < segments; i++) {
-          points.push({ x: mouse.x, y: mouse.y });
-        }
+    const initPoints = (x, y) => {
+      points = [];
+      for (let i = 0; i < segments; i++) {
+        points.push({ x, y });
       }
     };
 
-    const anim = () => {
-      let px = mouse.x;
-      let py = mouse.y;
-      points.forEach((p, index) => {
-        p.x = px;
-        p.y = py;
-        const n = points[index + 1];
-        if (n) {
-          px = px - (p.x - n.x) * 0.7;
-          py = py - (p.y - n.y) * 0.7;
-        }
-      });
-      path.setAttribute('d', `M ${points.map((p) => `${p.x} ${p.y}`).join(' L ')}`);
+    const updatePointer = (x, y) => {
+      pointer.x = x;
+      pointer.y = y;
+      if (points.length === 0) {
+        initPoints(x, y);
+      }
+      isActive = true;
+      svg.style.opacity = '1';
       
-      // Rotate the star slowly
-      rotation += 2;
-      head.setAttribute('transform', `translate(${mouse.x}, ${mouse.y}) rotate(${rotation})`);
+      // Reset fade timer
+      if (fadeOutTimer) clearTimeout(fadeOutTimer);
+      fadeOutTimer = setTimeout(() => {
+        svg.style.transition = 'opacity 0.5s ease-out';
+        svg.style.opacity = '0';
+        setTimeout(() => {
+          svg.style.transition = '';
+          isActive = false;
+        }, 500);
+      }, 150);
+    };
+
+    // Mouse events
+    document.addEventListener('mousemove', (e) => {
+      updatePointer(e.clientX, e.clientY);
+    });
+
+    // Touch events
+    document.addEventListener('touchstart', (e) => {
+      const touch = e.touches[0];
+      initPoints(touch.clientX, touch.clientY);
+      updatePointer(touch.clientX, touch.clientY);
+    }, { passive: true });
+
+    document.addEventListener('touchmove', (e) => {
+      const touch = e.touches[0];
+      updatePointer(touch.clientX, touch.clientY);
+    }, { passive: true });
+
+    document.addEventListener('touchend', () => {
+      if (fadeOutTimer) clearTimeout(fadeOutTimer);
+      fadeOutTimer = setTimeout(() => {
+        svg.style.transition = 'opacity 0.5s ease-out';
+        svg.style.opacity = '0';
+        setTimeout(() => {
+          svg.style.transition = '';
+          isActive = false;
+        }, 500);
+      }, 100);
+    });
+
+    const anim = () => {
+      if (points.length > 0) {
+        let px = pointer.x;
+        let py = pointer.y;
+        points.forEach((p, index) => {
+          p.x = px;
+          p.y = py;
+          const n = points[index + 1];
+          if (n) {
+            px = px - (p.x - n.x) * 0.7;
+            py = py - (p.y - n.y) * 0.7;
+          }
+        });
+        path.setAttribute('d', `M ${points.map((p) => `${p.x} ${p.y}`).join(' L ')}`);
+        
+        rotation += 2;
+        head.setAttribute('transform', `translate(${pointer.x}, ${pointer.y}) rotate(${rotation})`);
+      }
       
       requestAnimationFrame(anim);
     };
 
-    document.addEventListener('mousemove', move);
     window.addEventListener('resize', resize);
+    svg.style.opacity = '0';
     resize();
     anim();
   </script>
