@@ -2,6 +2,10 @@
 
 A personal landing page for Andrea Griffiths featuring an interactive link hub with a comet trail effect.
 
+## 🎬 Preview
+
+![ag11.dev landing page screenshot](./screenshot.png)
+
 ## 🌟 Features
 
 - Responsive design that works seamlessly on mobile and desktop
