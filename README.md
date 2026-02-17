@@ -4,7 +4,7 @@ A personal landing page for Andrea Griffiths featuring an interactive link hub w
 
 ## 🎬 Preview
 
-![ag11.dev landing page screenshot](./screenshot.png)
+
 
 ## 🌟 Features
 
